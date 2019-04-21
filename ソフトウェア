@@ -1,1 +1,13 @@
-a file for keeping git repo
+
+2019/04/21
+
+task 1
+スマホとラズパイをBlueToothで通信
+
+task 2
+スマホでコントローラを作る
+
+task 3
+スマホのコントローラ操作内容をBlueToothでラズパイへ伝達する
+(ラズパイに表示させる)
+
