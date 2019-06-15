@@ -1,5 +1,5 @@
 
-2019/04/21
+2019/04/21 Created
 
 task 1
 スマホとラズパイをBlueToothで通信
@@ -10,4 +10,24 @@ task 2
 task 3
 スマホのコントローラ操作内容をBlueToothでラズパイへ伝達する
 (ラズパイに表示させる)
+
+
+
+2019/06/15 Updated
+
+step 1
+PCのUNITYでコントローラを作る
+
+step 2
+PCのUNITYからraspiと通信する
+
+step 3
+スマホのUNITYからraspiと通信する
+
+step 4
+raspiからセンサやカメラデータを、スマホUNITYへ通信する
+
+
+
+
 
