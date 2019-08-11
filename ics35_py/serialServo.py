@@ -4,6 +4,8 @@
 import serial
 import time
 
+MAX_ANGLE = 270
+MIN_ANGLE = 0
 
 def ListToStr(data):
     strings = sum(map(chr, data))
@@ -45,21 +47,21 @@ class Servo:
         print(angle, type(angle))
         if angle > 270: angle = 270
         if angle < 0:   angle = 0
-        self.bef_angle = self.angle
+        # self.bef_angle = self.angle
         self.angle = angle
         angle = int(3500 + int((8000 * angle) / 270))
         data = reduce(DataToStr, [(0x80 | int(self.addr)), angle >> 7, angle & 0x7f])
         self.con.write(data)
 
-        # self.con.write(ListToStr([(0x80 | int(self.addr)), angle >> 7, angle & 0x7f]))
-        time.sleep(0.001)
-        # rcv = [ord(i) for i in self.con.read(6)]
-        # bef_angle = rcv[-2:]
+        time.sleep(0.0001)
+        rcv = [ord(i) for i in self.con.read(6)]
+        bef_angle = rcv[-2:]
         # self.bef_angle = 270.0*((rcv[0] << 7 | rcv[1] & 0x7f) - 3500)/8000
+        self.bef_angle = 270.0*((bef_angle[0] << 7 | bef_angle[1] & 0x7f) - 3500)/8000
         self.con.flushInput()
         return self.bef_angle
 
-    def Getpos(self):
+    def GetPos(self):
         return self.angle
 
     def Speed(self, speed):
