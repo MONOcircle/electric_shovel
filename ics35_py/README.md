@@ -3,6 +3,12 @@
 これはpythonから近藤科学のKRS-6003RHV(以下サーボ）を制御するためのパッケージです．  
 raspberry piからの制御を基準で考えています．しかし，FT232RLのUSBシリアル変換モジュールなどを使えばPCからでも制御が可能です．
 
+ラズパイ(Linux)からシリアルUSBアダプター経由で、KONDOサーボを動かすには下記の設定が必要です。
+https://kondo-robot.com/faq/usb_adapter_for_linux_2019
+
+ICS3.5コマンドリファレンス（サーボの動かし方）
+https://kondo-robot.com/faq/ics3-5_softwaremanual_1
+
 ## modules
 ### serialServo
  このモジュールは実際にサーボを制御するためのものです．
