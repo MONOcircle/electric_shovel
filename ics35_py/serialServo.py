@@ -8,7 +8,7 @@ MAX_ANGLE = 270
 MIN_ANGLE = 0
 
 def ListToStr(data):
-    strings = sum(map(chr, data))
+    strings = "".join(map(str, data))
     return strings
 
 
@@ -44,7 +44,6 @@ class Servo:
         return self.addr
 
     def Pos(self, angle):
-        print(angle, type(angle))
         if angle > 270: angle = 270
         if angle < 0:   angle = 0
         # self.bef_angle = self.angle
@@ -56,7 +55,6 @@ class Servo:
         time.sleep(0.0001)
         rcv = [ord(i) for i in self.con.read(6)]
         bef_angle = rcv[-2:]
-        # self.bef_angle = 270.0*((rcv[0] << 7 | rcv[1] & 0x7f) - 3500)/8000
         self.bef_angle = 270.0*((bef_angle[0] << 7 | bef_angle[1] & 0x7f) - 3500)/8000
         self.con.flushInput()
         return self.bef_angle
@@ -86,3 +84,5 @@ class Servo:
         self.con.flushInput()
         self.con.write(ListToStr([(0xc0 | self.addr), 0x02]))
         rcv = [ord(i) for i in self.con.read(5)]
+        return rcv[-1]
+

@@ -26,3 +26,14 @@ raspberry piからの制御を基準で考えています．しかし，FT232RL�
 
 ### servoGUI
 このモジュールはサーボ単体を簡単に操作できるGUIツールです．
+
+
+### PS3コントローラの接続
+
+`sudo sixpad -start &`
+を実行
+[....] Starting bluetooth (via systemctl): blue[ ok .service.
+sixad-bin[6327]: started
+sixad-bin[6327]: sixad started, press the PS button now
+
+のあとにPSボタンを押す
