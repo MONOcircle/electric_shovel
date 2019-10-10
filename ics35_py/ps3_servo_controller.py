@@ -57,9 +57,18 @@ def infinite_loop_control(servo_id, val, reverse=False):
             _pos = servos[servo_id].Pos(serialServo.MAX_ANGLE)    # +方向
     print("servo_id = {}, angle postition = {}".format(servo_id, _pos))
 
-        
-def ps3_control():
 
+def infinite_loop_stick_control(servo_id, val):
+    if val == 0:
+        _pos = servos[servo_id].Pos(135)    # 中立
+    if val > 0:
+        _pos = servos[servo_id].Pos(serialServo.MAX_ANGLE)
+    if val < 0:
+        _pos = servos[servo_id].Pos(serialServo.MIN_ANGLE)
+    print("servo_id = {}, angle postition = {}".format(servo_id, _pos))
+
+
+def ps3_control():
     device_path = "/dev/input/js0"
     EVENT_FORMAT = "LhBB";
     EVENT_SIZE = struct.calcsize(EVENT_FORMAT)
@@ -73,7 +82,7 @@ def ps3_control():
             if ds3_num == 0:
                 print("Left stick [LEFT/RIGHT]: {0}, {1}, {2}, {3}".format(ds3_time, ds3_val, ds3_type, ds3_num))
                 servo_id = 0
-                max_angle_stick_control(servo_id, ds3_val)
+                infinite_loop_stick_control(servo_id, ds3_val)
 
             # ds3_num=1: left stick, up/down [servo_id=1]
             if ds3_num == 1:
