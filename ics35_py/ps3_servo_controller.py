@@ -20,7 +20,10 @@ con = serial.Serial("/dev/ttyUSB0",
 
 initial_angle = 135     # 中立
 
-servos = [serialServo.Servo(con, "{}".format(i), initial_angle) for i in range(6)] # 6個のサーボを初期化
+servos = []
+for i in range(6):
+    print("Servo", i, "initializing...")
+    servos.append(serialServo.Servo(con, "{}".format(i))
 angles = [servo.GetPos() for servo in servos]
 
 
