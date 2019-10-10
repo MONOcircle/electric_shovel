@@ -23,7 +23,7 @@ initial_angle = 135     # 中立
 servos = []
 for i in range(6):
     print("Servo", i, "initializing...")
-    servos.append(serialServo.Servo(con, "{}".format(i))
+    servos.append(serialServo.Servo(con, "{}".format(i)))
 angles = [servo.GetPos() for servo in servos]
 
 
