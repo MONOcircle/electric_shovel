@@ -36,7 +36,7 @@ https://kondo-robot.com/faq/ics3-5_softwaremanual_1
 
 ### PS3コントローラの接続
 
-`sudo sixpad -start &`
+`sudo sixad -start &`
 を実行
 [....] Starting bluetooth (via systemctl): blue[ ok .service.
 sixad-bin[6327]: started
