@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import struct
 import serialServo
 
@@ -12,10 +13,9 @@ con = serial.Serial("/dev/ttyUSB0",
                     parity=serial.PARITY_EVEN,
                     stopbits=serial.STOPBITS_ONE,
                     timeout=1)
-servo0 = serialServo.Servo(con, "0"),  # Servo ID = 0, 旋回
-servo1 = serialServo.Servo(con, "1"),  # Servo ID = 1, L1 or L2
-servo2 = serialServo.Servo(con, "2"),  # Servo ID = 2, R1 or R2
-
+servo0 = serialServo.Servo(con, "0")  # Servo ID = 0, 旋回
+servo1 = serialServo.Servo(con, "1")  # Servo ID = 1, L1 or L2
+servo2 = serialServo.Servo(con, "2")  # Servo ID = 2, R1 or R2
 ###
 # servo操作関数
 ###
@@ -54,7 +54,7 @@ motor2_pin2 = 10
 motor3_pin1 = 9
 motor3_pin2 = 11
 wiringpi.wiringPiSetupGpio()
-# 全てのINを1　== ブレーキ
+# 全てのpin output
 wiringpi.pinMode(motor1_pin1, 1)
 wiringpi.pinMode(motor1_pin2, 1)
 wiringpi.pinMode(motor2_pin1, 1)
@@ -77,8 +77,8 @@ def stick_motor_control(pin1, pin2, val):
         input1 = 0
         input2 = 1
 
-    wiringpi.pinMode(pin1, input1)
-    wiringpi.pinMode(pin2, input2)
+    wiringpi.digitalWrite(pin1, input1)
+    wiringpi.digitalWrite(pin2, input2)
     print("pin1={}-input={}, pin2={}-input={}".format(pin1, input1,
                                                       pin2, input2))
 
@@ -107,16 +107,16 @@ def ps3_control():
                                                                     ds3_type,
                                                                     ds3_num))
 
-                stick_motor_control(motor1_pin1, motor1_pin2, ds3_val)
+                stick_motor_control(motor1_pin1, motor1_pin2, ds3_val*-1)
 
             # ds3_num=2: right stick, left/right [servo_id=2], Bucket
-            if ds3_num == 2:
+            if ds3_num == 3:
                 print("Right stick [LEFT/RIGHT]: {0}, {1}, {2}, {3}".format(
                     ds3_time, ds3_val, ds3_type, ds3_num))
                 stick_motor_control(motor2_pin1, motor2_pin2, ds3_val)
 
             # ds3_num=3: right stick, up/down [servo_id=3], Boom
-            if ds3_num == 3:
+            if ds3_num == 2:
                 print("Right stick [LEFT/RIGHT]: {0}, {1}, {2}, {3}".format(
                     ds3_time, ds3_val, ds3_type, ds3_num))
                 stick_motor_control(motor3_pin1, motor3_pin2, ds3_val)
@@ -143,7 +143,7 @@ def ps3_control():
                                                                 ds3_val,
                                                                 ds3_type,
                                                                 ds3_num))
-                infinite_loop_control(servo2, ds3_val)
+                infinite_loop_control(servo2, ds3_val,reverse=True)
 
             # ds3_num=4: R1 [servo_id=2]
             if ds3_num == 15:
@@ -151,5 +151,7 @@ def ps3_control():
                                                                 ds3_val,
                                                                 ds3_type,
                                                                 ds3_num))
-                servo_id = 2
-                infinite_loop_control(servo2, ds3_val, reverse=True)
+                infinite_loop_control(servo2, ds3_val)
+            event = device.read(EVENT_SIZE)
+if __name__ == "__main__":
+    ps3_control()

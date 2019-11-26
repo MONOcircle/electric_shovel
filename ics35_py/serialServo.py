@@ -3,6 +3,7 @@
 
 import serial
 import time
+from functools import reduce
 
 MAX_ANGLE = 270
 MIN_ANGLE = 0
