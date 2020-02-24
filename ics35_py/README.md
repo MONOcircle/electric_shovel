@@ -46,6 +46,7 @@ Setting master bd_addr to:MACアドレス
 ゲームコントローラーをRasPiから外し、
 `sudo sixad -start &`
 を実行
+
 [....] Starting bluetooth (via systemctl): blue[ ok .service.
 sixad-bin[6327]: started
 sixad-bin[6327]: sixad started, press the PS button now
