@@ -36,11 +36,15 @@ https://kondo-robot.com/faq/ics3-5_softwaremanual_1
 
 ### PS3コントローラの接続
 ゲームコントローラーを USB で RasPi につなげて、PSボタンを押して(1のみ点灯)から
+
 sudo sixpair
+
 を実行しペアリングする。
 
-正しくペアリングされれば下記のメッセージが表示される。
+正しくペアリングされれば下記のメッセージが表示される。 
+
 Current Bluetooth master:MACアドレス
+
 Setting master bd_addr to:MACアドレス
 
 ゲームコントローラーをRasPiから外し、
@@ -48,7 +52,9 @@ Setting master bd_addr to:MACアドレス
 を実行
 
 [....] Starting bluetooth (via systemctl): blue[ ok .service.
+
 sixad-bin[6327]: started
+
 sixad-bin[6327]: sixad started, press the PS button now
 
 のあとにPSボタンを押す
