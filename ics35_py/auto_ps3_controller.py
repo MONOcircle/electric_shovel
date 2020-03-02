@@ -156,7 +156,11 @@ def ps3_control():
 
 
 if __name__ == "__main__":
+    import subprocess
     import time
+    
+    subprocess.run("sudo sixad -start &") # sixadのコマンド実行
+    
     i = 0
     while True:
         i += 1
