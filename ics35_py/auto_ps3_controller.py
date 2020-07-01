@@ -30,7 +30,7 @@ def stick_infinite_loop_control(servo, val):
         _pos = servo.Pos(serialServo.MAX_ANGLE)
     if val < -1 * stick_th:
         _pos = servo.Pos(serialServo.MIN_ANGLE)
-    print("angle postition = {}, value={}".format(_pos, val))
+    #print("angle postition = {}, value={}".format(_pos, val))
 
 
 def infinite_loop_control(servo, val, reverse=False):
@@ -41,7 +41,7 @@ def infinite_loop_control(servo, val, reverse=False):
             _pos = servo.Pos(serialServo.MIN_ANGLE)  # -方向
         else:
             _pos = servo.Pos(serialServo.MAX_ANGLE)  # +方向
-    print("angle postition = {}".format(_pos))
+    #print("angle postition = {}".format(_pos))
 
 
 ###
@@ -83,8 +83,8 @@ def stick_motor_control(pin1, pin2, val):
 
     wiringpi.digitalWrite(pin1, input1)
     wiringpi.digitalWrite(pin2, input2)
-    print("pin1={}-input={}, pin2={}-input={}".format(pin1, input1,
-                                                      pin2, input2))
+    """print("pin1={}-input={}, pin2={}-input={}".format(pin1, input1,
+                                                      pin2, input2))"""
 
 
 def ps3_control():
@@ -99,62 +99,62 @@ def ps3_control():
                                                                    event)
             # ds3_num=0: left stick, left/right [servo_id=0], 旋回
             if ds3_num == 0:
-                print(
+                """print(
                     "ServoId=0, Left stick [LEFT/RIGHT]: {}, {}, {}, {}".format(
-                        ds3_time, ds3_val, ds3_type, ds3_num))
+                        ds3_time, ds3_val, ds3_type, ds3_num))"""
                 stick_infinite_loop_control(servo0, ds3_val)
 
             # ds3_num=1: left stick, up/down [servo_id=1], Arm
             if ds3_num == 1:
-                print("left stick [up/down]: {}, {}, {}, {}".format(ds3_time,
+                """print("left stick [up/down]: {}, {}, {}, {}".format(ds3_time,
                                                                     ds3_val,
                                                                     ds3_type,
-                                                                    ds3_num))
-
+                                                                    ds3_num))"""
+                                                                    
                 stick_motor_control(motor1_pin1, motor1_pin2, ds3_val*-1)
 
             # ds3_num=2: right stick, left/right [servo_id=2], Bucket
             if ds3_num == 3:
-                print("Right stick [LEFT/RIGHT]: {0}, {1}, {2}, {3}".format(
-                    ds3_time, ds3_val, ds3_type, ds3_num))
+                """print("Right stick [LEFT/RIGHT]: {0}, {1}, {2}, {3}".format(
+                    ds3_time, ds3_val, ds3_type, ds3_num))"""
                 stick_motor_control(motor2_pin1, motor2_pin2, ds3_val)
 
             # ds3_num=3: right stick, up/down [servo_id=3], Boom
             if ds3_num == 2:
-                print("Right stick [LEFT/RIGHT]: {0}, {1}, {2}, {3}".format(
-                    ds3_time, ds3_val, ds3_type, ds3_num))
+                """print("Right stick [LEFT/RIGHT]: {0}, {1}, {2}, {3}".format(
+                    ds3_time, ds3_val, ds3_type, ds3_num))"""
                 stick_motor_control(motor3_pin1, motor3_pin2, ds3_val)
 
             # ds3_num=12: L2 [servo_id=1]
             if ds3_num == 12:
-                print("ServoId=1, L2 ON: {}, {}, {}, {}".format(ds3_time,
+                """print("ServoId=1, L2 ON: {}, {}, {}, {}".format(ds3_time,
                                                                 ds3_val,
                                                                 ds3_type,
-                                                                ds3_num))
+                                                                ds3_num))"""
                 infinite_loop_control(servo1, ds3_val)
 
             # ds3_num=14: L1 [servo_id=1]
             if ds3_num == 14:
-                print("ServoId=1, L1 ON: {}, {}, {}, {}".format(ds3_time,
+                """print("ServoId=1, L1 ON: {}, {}, {}, {}".format(ds3_time,
                                                                 ds3_val,
                                                                 ds3_type,
-                                                                ds3_num))
+                                                                ds3_num))"""
                 infinite_loop_control(servo1, ds3_val, reverse=True)
 
             # ds3_num=4: R2 [servo_id=2]
             if ds3_num == 13:
-                print("ServoId=2, R2 ON: {}, {}, {}, {}".format(ds3_time,
+                """print("ServoId=2, R2 ON: {}, {}, {}, {}".format(ds3_time,
                                                                 ds3_val,
                                                                 ds3_type,
-                                                                ds3_num))
+                                                                ds3_num))"""
                 infinite_loop_control(servo2, ds3_val,reverse=True)
 
             # ds3_num=4: R1 [servo_id=2]
             if ds3_num == 15:
-                print("ServoId=2, R1 ON: {}, {}, {}, {}".format(ds3_time,
+                """print("ServoId=2, R1 ON: {}, {}, {}, {}".format(ds3_time,
                                                                 ds3_val,
                                                                 ds3_type,
-                                                                ds3_num))
+                                                                ds3_num))"""
                 infinite_loop_control(servo2, ds3_val)
             event = device.read(EVENT_SIZE)
 
