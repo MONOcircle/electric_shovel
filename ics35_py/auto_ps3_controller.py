@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 import struct
 import serialServo
-
 import serial
 import wiringpi
+import time
+import os
 
 ###
 # servoの初期化
@@ -53,6 +54,7 @@ motor2_pin1 = 22
 motor2_pin2 = 10
 motor3_pin1 = 9
 motor3_pin2 = 11
+speaker_pin = 13
 wiringpi.wiringPiSetupGpio()
 # 全てのpin output
 wiringpi.pinMode(motor1_pin1, 1)
@@ -61,6 +63,8 @@ wiringpi.pinMode(motor2_pin1, 1)
 wiringpi.pinMode(motor2_pin2, 1)
 wiringpi.pinMode(motor3_pin1, 1)
 wiringpi.pinMode(motor3_pin2, 1)
+# PWM
+wiringpi.pinMode(speaker_pin, 2)
 
 
 def stick_motor_control(pin1, pin2, val):
@@ -156,10 +160,10 @@ def ps3_control():
 
 
 if __name__ == "__main__":
-    import subprocess
-    import time
-    
-    subprocess.run("sudo sixad -start &") # sixadのコマンド実行
+    os.system('sudo amixer cset numid=3 1')
+    os.system('sudo amixer cset numid=1 400')
+    os.system('sudo aplay /home/pi/Documents/electric_shovel/ics35_py/engine_start.wav')
+    os.system("sudo sixad -start &") # sixadのコマンド実行
     
     i = 0
     while True:
