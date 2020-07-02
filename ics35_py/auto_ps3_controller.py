@@ -156,13 +156,29 @@ def ps3_control():
                                                                 ds3_type,
                                                                 ds3_num))"""
                 infinite_loop_control(servo2, ds3_val)
+            
+            if ds3_num == 0:
+                if ds3_val == 1:
+                    select_button = 1
+                else:
+                    select_button = 0
+                
+            if ds3_num == 3:
+                if ds3_val == 1:
+                    start_button = 1
+                else:
+                    start_button = 0
+                    
+            if select_button == 1 and start_button == 1:
+                os.system('sudo aplay /home/pi/Documents/electric_shovel/ics35_py/stop.wav')
+                os.system("sudo shutdown -h now")
+                
             event = device.read(EVENT_SIZE)
-
 
 if __name__ == "__main__":
     os.system('sudo amixer cset numid=3 1')
     os.system('sudo amixer cset numid=1 400')
-    os.system('sudo aplay /home/pi/Documents/electric_shovel/ics35_py/engine_start.wav')
+    os.system('sudo aplay /home/pi/Documents/electric_shovel/ics35_py/start.wav')
     os.system("sudo sixad -start &") # sixadのコマンド実行
     
     i = 0
