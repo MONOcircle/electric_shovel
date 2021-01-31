@@ -2,11 +2,11 @@
 
 from dynamixel_sdk import PacketHandler, PortHandler, COMM_SUCCESS
 
-from enum import Enum, unique
+from enum import IntEnum, unique
 
 
 @unique
-class BAUDRATE(Enum):
+class BAUDRATE(IntEnum):
     B2M = 0
     B1M = 1
     B500000 = 3
@@ -27,18 +27,18 @@ class MX12W:
     TORQUE_ON = 1
     TORQUE_OFF = 0
 
-    def __init__(self, device_name, baudrate, id):
+    def __init__(self, device_name, baudrate, servo_id):
         self.device_name = device_name
         self.port_handler = PortHandler(self.device_name)
-        self.packet_handler = PacketHandler(PROTOCOL_VERSION)
+        self.packet_handler = PacketHandler(self.PROTOCOL_VERSION)
         self.set_baudrate(baudrate)
-        self.set_id(id)
+        self.set_id(servo_id)
 
-    def set_id(self, id):
-        self.id = id
+    def set_id(self, servo_id):
+        self.servo_id = int(servo_id)
 
     def set_baudrate(self, baudrate):
-        self.baudrate = baudrate
+        self.baudrate = int(baudrate)
         b_value = round((2000000/baudrate)-1)
         self.port_handler.setBaudRate(b_value)
 
@@ -50,7 +50,7 @@ class MX12W:
 
     def set_torque(self, t):
         dxl_comm_result, dxl_error = self.packet_handler.write1ByteTxRx(
-            self.port_handler, self.id, ADDR_TORQUE_ENABLE, t)
+            self.port_handler, self.servo_id, self.ADDR_TORQUE_ENABLE, t)
         if dxl_comm_result != COMM_SUCCESS:
             print("%s" % self.packet_handler.getTxRxResult(dxl_comm_result))
             return False
@@ -69,7 +69,7 @@ class MX12W:
 
     def set_raw_position(self, pos):
         dxl_comm_result, dxl_error = self.packet_handler.write4ByteTxRx(
-            self.port_handler, self.id, ADDR_GOAL_POSITION, pos)
+            self.port_handler, self.servo_id, self.ADDR_GOAL_POSITION, pos)
         if dxl_comm_result != COMM_SUCCESS:
             print("%s" % self.packet_handler.getTxRxResult(dxl_comm_result))
             return False
@@ -85,7 +85,7 @@ class MX12W:
 
     def get_raw_position(self):
         dxl_present_position, dxl_comm_result, dxl_error = self.packet_handler.read4ByteTxRx(
-            self.port_handler, self.id, ADDR_PRESENT_POSITION)
+            self.port_handler, self.servo_id, self.ADDR_PRESENT_POSITION)
         if dxl_comm_result != COMM_SUCCESS:
             print("%s" % self.packet_handler.getTxRxResult(dxl_comm_result))
         elif dxl_error != 0:
