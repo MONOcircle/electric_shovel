@@ -8,7 +8,7 @@ if __name__ == "__main__":
     parser.add_argument("id", type=int, help="id")
     args = parser.parse_args()
 
-    mx12w = MX12W(args.device_name, BAUDRATE.B115200, args.id)
+    mx12w = MX12W(args.device_name, BAUDRATE.B1M, args.id)
     if not mx12w.open():
         print("Error: Can't open port [", args.device_name, "]")
         sys.exit(1)
