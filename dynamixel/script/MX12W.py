@@ -23,6 +23,9 @@ class MX12W:
     ADDR_TORQUE_ENABLE = 24
     ADDR_GOAL_POSITION = 30
     ADDR_PRESENT_POSITION = 36
+    ADDR_MOVING_SPEED = 32
+    ADDR_CW_ANGLE_LIMIT = 6
+    ADDR_CCW_ANGLE_LIMIT = 8
     PROTOCOL_VERSION = 1.0
     TORQUE_ON = 1
     TORQUE_OFF = 0
@@ -48,6 +51,24 @@ class MX12W:
         else:
             return False
 
+    def set_joint_mode(self):
+        self.packet_handler.write2ByteTxRx(
+            self.port_handler, self.servo_id, self.ADDR_CW_ANGLE_LIMIT,0)
+        self.packet_handler.write2ByteTxRx(
+            self.port_handler, self.servo_id, self.ADDR_CCW_ANGLE_LIMIT,4095)
+
+    def set_wheel_mode(self):
+        self.packet_handler.write2ByteTxRx(
+            self.port_handler, self.servo_id, self.ADDR_CW_ANGLE_LIMIT,0)
+        self.packet_handler.write2ByteTxRx(
+            self.port_handler, self.servo_id, self.ADDR_CCW_ANGLE_LIMIT,0)
+
+    def set_multi_turn_mode(self):
+        self.packet_handler.write2ByteTxRx(
+            self.port_handler, self.servo_id, self.ADDR_CW_ANGLE_LIMIT,4095)
+        self.packet_handler.write2ByteTxRx(
+            self.port_handler, self.servo_id, self.ADDR_CCW_ANGLE_LIMIT,4095)
+
     def set_torque(self, t):
         dxl_comm_result, dxl_error = self.packet_handler.write1ByteTxRx(
             self.port_handler, self.servo_id, self.ADDR_TORQUE_ENABLE, t)
@@ -68,8 +89,20 @@ class MX12W:
         self.set_raw_position(p_value)
 
     def set_raw_position(self, pos):
-        dxl_comm_result, dxl_error = self.packet_handler.write4ByteTxRx(
+        dxl_comm_result, dxl_error = self.packet_handler.write2ByteTxRx(
             self.port_handler, self.servo_id, self.ADDR_GOAL_POSITION, pos)
+        if dxl_comm_result != COMM_SUCCESS:
+            print("%s" % self.packet_handler.getTxRxResult(dxl_comm_result))
+            return False
+        elif dxl_error != 0:
+            print("%s" % self.packet_handler.getRxPacketError(dxl_error))
+            return False
+        else:
+            return True
+
+    def set_wheel_speed(self,speed):
+        dxl_comm_result, dxl_error = self.packet_handler.write2ByteTxRx(
+            self.port_handler, self.servo_id, self.ADDR_MOVING_SPEED, speed)
         if dxl_comm_result != COMM_SUCCESS:
             print("%s" % self.packet_handler.getTxRxResult(dxl_comm_result))
             return False
@@ -84,7 +117,7 @@ class MX12W:
         return pos*0.088-0.224
 
     def get_raw_position(self):
-        dxl_present_position, dxl_comm_result, dxl_error = self.packet_handler.read4ByteTxRx(
+        dxl_present_position, dxl_comm_result, dxl_error = self.packet_handler.read2ByteTxRx(
             self.port_handler, self.servo_id, self.ADDR_PRESENT_POSITION)
         if dxl_comm_result != COMM_SUCCESS:
             print("%s" % self.packet_handler.getTxRxResult(dxl_comm_result))
