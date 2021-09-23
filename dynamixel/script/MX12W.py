@@ -29,6 +29,7 @@ class MX12W:
     PROTOCOL_VERSION = 1.0
     TORQUE_ON = 1
     TORQUE_OFF = 0
+    STICK = 25000
 
     def __init__(self, device_name, baudrate, servo_id):
         self.device_name = device_name
@@ -42,7 +43,7 @@ class MX12W:
 
     def set_baudrate(self, baudrate):
         self.baudrate = int(baudrate)
-        b_value = round((2000000/baudrate)-1)
+        b_value = round(2000000/(baudrate+1))
         self.port_handler.setBaudRate(b_value)
 
     def open(self):
@@ -124,3 +125,37 @@ class MX12W:
         elif dxl_error != 0:
             print("%s" % self.packet_handler.getRxPacketError(dxl_error))
         return dxl_present_position
+
+    def stick_control(self, val):
+        if (-1 * self.STICK <= val) and (val <= self.STICK):
+            self.set_torque(MX12W.TORQUE_OFF)
+            
+        if val > self.STICK:
+            self.set_torque(MX12W.TORQUE_ON)
+            self.set_wheel_speed(500) #CCW=0~1023 CW=1024~2047
+
+        if val < -1 * self.STICK:
+            self.set_torque(MX12W.TORQUE_ON)
+            self.set_wheel_speed(1524) #CCW=0~1023 CW=1024~2047
+
+    def stick_control_rotate(self, val):
+        if (-1 * self.STICK <= val) and (val <= self.STICK):
+            self.set_wheel_speed(0) #CCW=0~1023 CW=1024~2047
+            
+        if val > self.STICK:
+            self.set_wheel_speed(1144) #CCW=0~1023 CW=1024~2047
+
+        if val < -1 * self.STICK:
+            self.set_wheel_speed(120) #CCW=0~1023 CW=1024~2047
+    
+    def button_control_wheel(self, val, reverse=False):
+        if val == 0:
+            self.set_torque(MX12W.TORQUE_OFF)
+
+        else:
+            if reverse:
+                self.set_torque(MX12W.TORQUE_ON)
+                self.set_wheel_speed(800) #CCW=0~1023 CW=1024~2047
+            else:
+                self.set_torque(MX12W.TORQUE_ON)
+                self.set_wheel_speed(1824) #CCW=0~1023 CW=1024~2047

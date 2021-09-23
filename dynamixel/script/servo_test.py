@@ -13,11 +13,11 @@ if __name__ == "__main__":
         print("Error: Can't open port [", args.device_name, "]")
         sys.exit(1)
     #mx12w.set_joint_mode()
-    #mx12w.set_wheel_mode()
-    mx12w.set_multi_turn_mode()
+    mx12w.set_wheel_mode()
+    #mx12w.set_multi_turn_mode()
     mx12w.set_torque(MX12W.TORQUE_ON)
-    mx12w.set_raw_position(48672)
-    #mx12w.set_wheel_speed(200)
+    #mx12w.set_raw_position(48672)
+    mx12w.set_wheel_speed(100) #CCW=0~1023 CW=1024~2047
     # while True:
         # angle = mx12w.get_position()
         # print(angle)
