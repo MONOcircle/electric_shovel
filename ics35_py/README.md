@@ -58,3 +58,7 @@ sixad-bin[6327]: started
 sixad-bin[6327]: sixad started, press the PS button now
 
 のあとにPSボタンを押す
+
+コントローラが接続されると、通常は　/dev/input/js0　になるが、
+たまに　/dev/input/js1　になる場合があるので注意。
+js1になっているときはコントローラの1ではなく2のLEDが点灯するので、そこで判別できる。
